@@ -1,10 +1,10 @@
 <!doctype html>
-<html lang="en"><head><meta charset="utf-8"><title>AuraDrop promo (1920×1080, 13 s, silent)</title>
+<html lang="en"><head><meta charset="utf-8"><title>AuraDrop promo (13 s) — ?format=vertical for 1080×1920</title>
 <style>
 @font-face{font-family:Fredoka;src:url(../tools/fonts/Fredoka.ttf);font-weight:300 700}
 html,body{margin:0;background:#000;overflow:hidden}
-#stage{position:relative;width:1920px;height:1080px;overflow:hidden;transform-origin:0 0}
-.scene,.layer{position:absolute;left:0;top:0;width:1920px;height:1080px}
+#stage{position:relative;width:var(--w);height:var(--h);overflow:hidden;transform-origin:0 0}
+.scene,.layer{position:absolute;left:0;top:0;width:var(--w);height:var(--h)}
 .scene{display:none;overflow:hidden}
 .a{position:absolute;left:0;top:0;transform-origin:50% 50%;will-change:transform}
 .t{font-family:Fredoka,sans-serif;font-weight:600;line-height:1;letter-spacing:-.02em;white-space:nowrap}
@@ -16,7 +16,10 @@ html,body{margin:0;background:#000;overflow:hidden}
 </style></head>
 <body><div id="stage"><div id="world"></div><div id="flash"></div></div>
 <script>
-const W=1920,H=1080,FPS=60,DUR=13;
+const V=new URLSearchParams(location.search).get('format')==='vertical';
+const W=V?1080:1920,H=V?1920:1080,FPS=60,DUR=13;
+const P=(l,p)=>V?p:l;
+document.documentElement.style.setProperty('--w',W+'px');document.documentElement.style.setProperty('--h',H+'px');
 const A='../assets/',L='../logo/';
 const K={forest:'#14352A',leaf:'#1C9358',mint:'#3FD283',lime:'#8FE04A',cream:'#FBF8F0',gray:'#C4CAC4',coral:'#FF7A59',coralD:'#E8603F',kraft:'#D9B98A',water:'#7BD3EA'};
 const clamp=(x,a=0,b=1)=>Math.min(b,Math.max(a,x));
@@ -39,89 +42,98 @@ const blank=(el)=>{el.style.opacity=0};
 
 const scenes=[];
 const scene=(bg,build,up)=>scenes.push({bg,build,up});
+const CX=W/2;
 
 // 0 — YOUR PLANT / IS FADING.
-scene(K.gray,r=>({p:pic(r,A+'plants/fiddle-leaf-fig-wilted.svg',640),a:txt(r,'YOUR PLANT',178,K.forest),b:txt(r,'IS FADING.',178,K.coralD)}),(u,R)=>{
-  enter(R.p,u,0,{x:1380,y:620,dy:900,d:.16});enter(R.a,u,.04,{x:610,y:430,dx:-900});enter(R.b,u,.5,{x:610,y:640,dx:-900,s0:1.5});
+scene(K.gray,r=>({p:pic(r,A+'plants/fiddle-leaf-fig-wilted.svg',P(640,760)),a:txt(r,'YOUR PLANT',P(178,150),K.forest),b:txt(r,'IS FADING.',P(178,150),K.coralD)}),(u,R)=>{
+  enter(R.p,u,0,{x:P(1380,CX),y:P(620,1150),dy:1000,d:.16});
+  enter(R.a,u,.04,{x:P(610,CX),y:P(430,470),dx:-1100});enter(R.b,u,.5,{x:P(610,CX),y:P(640,650),dx:-1100,s0:1.5});
   return {shake:[[.17,16],[.5,24]]}});
 
 // 1 — SNAP. + flash
-scene(K.forest,r=>({t:txt(r,'SNAP.',400,K.cream),c:box(r,{width:560+'px',height:560+'px',background:K.cream,borderRadius:'90px'}),i:pic(r,A+'icons/snap.svg',420)}),(u,R)=>{
-  enter(R.t,u,0,{x:640,y:540,dx:-1000});enter(R.c,u,.08,{x:1560,y:540,dx:900,r0:18});enter(R.i,u,.08,{x:1560,y:540,dx:900,r0:18});
+scene(K.forest,r=>({t:txt(r,'SNAP.',P(400,340),K.cream),c:box(r,{width:P(560,540)+'px',height:P(560,540)+'px',background:K.cream,borderRadius:'90px'}),i:pic(r,A+'icons/snap.svg',P(420,400))}),(u,R)=>{
+  enter(R.t,u,0,{x:P(640,CX),y:P(540,620),dx:-1100});
+  const b={x:P(1560,CX),y:P(540,1180),dx:P(900,0),dy:P(0,900),r0:18};enter(R.c,u,.08,b);enter(R.i,u,.08,b);
   return {shake:[[.2,16]],flash:u>=.5?Math.exp(-(u-.5)*20):0}});
 
 // 2 — ONE PHOTO. phone
-scene(K.lime,r=>({ph:pic(r,A+'ui/phone-diagnosis.svg',520),a:txt(r,'ONE',320,K.forest),b:txt(r,'PHOTO.',320,K.forest)}),(u,R)=>{
-  enter(R.ph,u,0,{x:1520,y:560,r:7,dx:900,r0:28,d:.16});enter(R.a,u,.04,{x:560,y:380,dx:-1000});enter(R.b,u,.5,{x:580,y:710,dx:-1000,s0:1.4});
+scene(K.lime,r=>({ph:pic(r,A+'ui/phone-diagnosis.svg',P(520,500)),a:txt(r,'ONE',P(320,300),K.forest),b:txt(r,'PHOTO.',P(320,280),K.forest)}),(u,R)=>{
+  enter(R.ph,u,0,{x:P(1520,CX),y:P(560,1240),r:7,dx:P(900,0),dy:P(0,1000),r0:28,d:.16});
+  enter(R.a,u,.04,{x:P(560,CX),y:P(380,430),dx:-1100});enter(R.b,u,.5,{x:P(580,CX),y:P(710,640),dx:-1100,s0:1.4});
   return {shake:[[.17,18],[.5,22]]}});
 
 // 3 — DIAGNOSE. scan + tags
-scene(K.cream,r=>({t:txt(r,'DIAGNOSE.',236,K.forest),p:pic(r,A+'plants/fiddle-leaf-fig-wilted.svg',560),
-  scan:box(r,{width:'900px',height:'10px',background:K.lime,boxShadow:'0 0 40px 14px rgba(143,224,74,.7)',borderRadius:'6px'}),
+scene(K.cream,r=>({t:txt(r,'DIAGNOSE.',P(236,172),K.forest),p:pic(r,A+'plants/fiddle-leaf-fig-wilted.svg',P(560,640)),
+  scan:box(r,{width:P(900,760)+'px',height:'10px',background:K.lime,boxShadow:'0 0 40px 14px rgba(143,224,74,.7)',borderRadius:'6px'}),
   c1:box(r,{background:K.water},'a chip'),c2:box(r,{background:K.coral},'a chip'),c3:box(r,{background:K.kraft},'a chip')}),(u,R)=>{
-  [R.c1,R.c2,R.c3].forEach((c,i)=>{c.style.fontSize='84px';c.textContent=['THIRSTY','PESTS','TIRED SOIL'][i]});
-  enter(R.t,u,0,{x:960,y:175,dy:-380});enter(R.p,u,0,{x:960,y:650,dy:700,d:.15});
-  const sp=clamp((u-.06)/.5);put(R.scan,960,980-sp*700,1,0,u>.06&&u<.6?1:0);
-  enter(R.c1,u,.32,{x:430,y:470,s0:2.4,r:-6});enter(R.c2,u,.5,{x:1500,y:610,s0:2.4,r:5});enter(R.c3,u,.68,{x:470,y:860,s0:2.4,r:-4});
+  [R.c1,R.c2,R.c3].forEach((c,i)=>{c.style.fontSize=P(84,76)+'px';c.textContent=['THIRSTY','PESTS','TIRED SOIL'][i]});
+  enter(R.t,u,0,{x:CX,y:P(175,340),dy:-500});enter(R.p,u,0,{x:CX,y:P(650,1050),dy:900,d:.15});
+  const sp=clamp((u-.06)/.5);put(R.scan,CX,P(980-sp*700,1420-sp*780),1,0,u>.06&&u<.6?1:0);
+  enter(R.c1,u,.32,{x:P(430,320),y:P(470,700),s0:2.4,r:-6});enter(R.c2,u,.5,{x:P(1500,740),y:P(610,1010),s0:2.4,r:5});enter(R.c3,u,.68,{x:P(470,CX),y:P(860,1380),s0:2.4,r:-4});
   return {shake:[[.17,14],[.32,16],[.5,16],[.68,16]]}});
 
 // 4 — DROP. box slam
-scene(K.coral,r=>({t:txt(r,'DROP.',430,K.cream),b:pic(r,A+'kit/box-closed.svg',780)}),(u,R)=>{
-  enter(R.t,u,0,{x:960,y:250,dy:-500});enter(R.b,u,.2,{x:960,y:740,dy:-1100,d:.11});
+scene(K.coral,r=>({t:txt(r,'DROP.',P(430,340),K.cream),b:pic(r,A+'kit/box-closed.svg',P(780,900))}),(u,R)=>{
+  enter(R.t,u,0,{x:CX,y:P(250,460),dy:-600});enter(R.b,u,.2,{x:CX,y:P(740,1180),dy:-1400,d:.11});
   return {shake:[[.17,10],[.31,38]]}});
 
 // 5 — ONE KIT.
-scene(K.kraft,r=>({t:txt(r,'ONE KIT.',240,K.forest),b:pic(r,A+'kit/box-open.svg',840),
-  i:[pic(r,A+'kit/soil-bag.svg',300),pic(r,A+'kit/nutrient-drops.svg',300),pic(r,A+'kit/pest-spray.svg',300),pic(r,A+'kit/self-watering-globe.svg',300)]}),(u,R)=>{
-  enter(R.t,u,0,{x:960,y:165,dy:-400});enter(R.b,u,0,{x:960,y:720,dy:900,d:.15});
-  const pos=[[300,650,-8],[610,520,6],[1310,520,-6],[1620,650,8]];
+scene(K.kraft,r=>({t:txt(r,'ONE KIT.',P(240,245),K.forest),b:pic(r,A+'kit/box-open.svg',P(840,1000)),
+  i:['soil-bag','nutrient-drops','pest-spray','self-watering-globe'].map(n=>pic(r,A+`kit/${n}.svg`,P(300,290)))}),(u,R)=>{
+  enter(R.t,u,0,{x:CX,y:P(165,380),dy:-500});enter(R.b,u,0,{x:CX,y:P(720,1330),dy:1000,d:.15});
+  const pos=P([[300,650,-8],[610,520,6],[1310,520,-6],[1620,650,8]],[[190,880,-8],[450,700,6],[630,700,-6],[890,880,8]]);
   R.i.forEach((im,k)=>enter(im,u,.14+k*.14,{x:pos[k][0],y:pos[k][1],r:pos[k][2],s0:2.6,dy:-500}));
   return {shake:[[.14,12],[.28,14],[.42,14],[.56,14]]}});
 
 // 6 — GLOW. flood + rings
-scene(K.mint,r=>({t:txt(r,'GLOW.',340,K.cream),p:pic(r,A+'plants/fiddle-leaf-fig-revived.svg',740),rg:[ring(r),ring(r),ring(r)],sp:[spark(r,120,K.lime),spark(r,80,K.cream),spark(r,100,K.cream)]}),(u,R)=>{
-  enter(R.t,u,.02,{x:640,y:540,dx:-1000});enter(R.p,u,0,{x:1400,y:560,s0:2.2,dy:500,d:.15});
-  R.rg.forEach((g,k)=>{const q=clamp((u-.05-k*.1)/.5);ringAt(g,1400,540,120+eo(q)*900,q>0?1-q:0,14)});
-  [[1120,200,.3],[1700,330,.4],[1660,880,.5]].forEach((s,k)=>enter(R.sp[k],u,s[2],{x:s[0],y:s[1],s0:3,d:.1}));
+scene(K.mint,r=>({t:txt(r,'GLOW.',P(340,310),K.cream),p:pic(r,A+'plants/fiddle-leaf-fig-revived.svg',P(740,820)),rg:[ring(r),ring(r),ring(r)],sp:[spark(r,120,K.lime),spark(r,80,K.cream),spark(r,100,K.cream)]}),(u,R)=>{
+  enter(R.t,u,.02,{x:P(640,CX),y:P(540,420),dx:-1100});enter(R.p,u,0,{x:P(1400,CX),y:P(560,1170),s0:2.2,dy:600,d:.15});
+  const rc=P([1400,540],[CX,1060]);
+  R.rg.forEach((g,k)=>{const q=clamp((u-.05-k*.1)/.5);ringAt(g,rc[0],rc[1],120+eo(q)*P(900,1100),q>0?1-q:0,14)});
+  P([[1120,200,.3],[1700,330,.4],[1660,880,.5]],[[170,720,.3],[920,640,.4],[900,1500,.5]]).forEach((s,k)=>enter(R.sp[k],u,s[2],{x:s[0],y:s[1],s0:3,d:.1}));
   return {shake:[[.05,26]],flash:Math.exp(-u*18)*.95}});
 
 // 7 — before / after wipe
 scene(K.gray,r=>{const gA=box(r,{},'layer'),gB=box(r,{background:'linear-gradient(160deg,#6FE3A0,#1C9358)'},'layer');
-  return {gB,pa:pic(gA,A+'plants/monstera-wilted.svg',640),ta:txt(gA,'BEFORE',150,K.forest),pb:pic(gB,A+'plants/monstera-revived.svg',640),tb:txt(gB,'AFTER',150,K.cream)}},(u,R)=>{
+  return {gB,pa:pic(gA,A+'plants/monstera-wilted.svg',P(640,780)),ta:txt(gA,'BEFORE',P(150,190),K.forest),pb:pic(gB,A+'plants/monstera-revived.svg',P(640,780)),tb:txt(gB,'AFTER',P(150,190),K.cream)}},(u,R)=>{
   const p=eo(clamp((u-.5)/.14));
-  R.gB.style.clipPath=`inset(0 ${100-p*100}% 0 0)`;
-  enter(R.pa,u,0,{x:960,y:640,dy:800,d:.15});enter(R.ta,u,.02,{x:960,y:150,dy:-300});
-  put(R.pb,960,640,1,0,1);put(R.tb,960,150,1,0,1);
+  R.gB.style.clipPath=P(`inset(0 ${100-p*100}% 0 0)`,`inset(0 0 ${100-p*100}% 0)`);
+  const py=P(640,1150),ty=P(150,420);
+  enter(R.pa,u,0,{x:CX,y:py,dy:900,d:.15});enter(R.ta,u,.02,{x:CX,y:ty,dy:-400});
+  put(R.pb,CX,py,1,0,1);put(R.tb,CX,ty,1,0,1);
   return {shake:[[.17,14],[.64,20]],flash:u>=.5?Math.exp(-(u-.5)*24)*.5:0}});
 
 // 8 — ANY PLANT.
-scene(K.cream,r=>({t:txt(r,'ANY PLANT.',250,K.forest),pl:['fiddle-leaf-fig','monstera','snake-plant','pothos','succulent','terrarium'].map(n=>pic(r,A+`plants/${n}-revived.svg`,300))}),(u,R)=>{
-  enter(R.t,u,0,{x:960,y:190,dy:-400});
-  R.pl.forEach((p,i)=>enter(p,u,.1+i*.1,{x:180+312*i,y:810,dy:700,d:.13}));
+scene(K.cream,r=>({t:txt(r,P('ANY PLANT.','ANY'),P(250,300),K.forest),t2:txt(r,'PLANT.',300,K.forest),pl:['fiddle-leaf-fig','monstera','snake-plant','pothos','succulent','terrarium'].map(n=>pic(r,A+`plants/${n}-revived.svg`,P(300,340)))}),(u,R)=>{
+  enter(R.t,u,0,{x:CX,y:P(190,350),dy:-500});
+  if(V)enter(R.t2,u,.06,{x:CX,y:600,dy:-500});else R.t2.style.display='none';
+  R.pl.forEach((p,i)=>enter(p,u,.1+i*.1,{x:P(180+312*i,200+340*(i%3)),y:P(810,i<3?1020:1440),dy:800,d:.13}));
   return {shake:[[.1,12],[.2,10],[.3,10],[.4,10],[.5,10],[.6,14]]}});
 
 // 9 — 4 STEPS.
-scene(K.forest,r=>({t:txt(r,'4 STEPS.',170,K.mint),cards:['snap','diagnose','drop','glow'].map(n=>({c:box(r,{},'a card'),i:pic(r,A+`icons/${n}.svg`,270),l:txt(r,n.toUpperCase(),64,K.forest)}))}),(u,R)=>{
-  enter(R.t,u,0,{x:960,y:120,dy:-300});
-  R.cards.forEach((c,k)=>{const x=330+k*420,a=.1+k*.2,b={x,y:560,s0:1.7,dy:500};enter(c.c,u,a,b);enter(c.i,u,a,{x,y:500,s0:1.7,dy:500});enter(c.l,u,a,{x,y:730,s0:1.7,dy:500})});
+scene(K.forest,r=>({t:txt(r,'4 STEPS.',P(170,220),K.mint),cards:['snap','diagnose','drop','glow'].map(n=>({c:box(r,{},'a card'),i:pic(r,A+`icons/${n}.svg`,P(270,250)),l:txt(r,n.toUpperCase(),P(64,60),K.forest)}))}),(u,R)=>{
+  enter(R.t,u,0,{x:CX,y:P(120,340),dy:-400});
+  R.cards.forEach((c,k)=>{const x=P(330+k*420,290+(k%2)*500),y=P(560,820+Math.floor(k/2)*520),a=.1+k*.2,sc=P(1,.92),o={s0:1.7,dy:600};
+    enter(c.c,u,a,Object.assign({x,y,s:sc},o));enter(c.i,u,a,Object.assign({x,y:y-P(60,55),s:sc},o));enter(c.l,u,a,Object.assign({x,y:y+P(170,150),s:sc},o))});
   return {shake:[[.1,10],[.3,14],[.5,14],[.7,16]]}});
 
 // 10 — SECOND / WIND.
-scene(K.lime,r=>({a:txt(r,'SECOND',410,K.forest),b:txt(r,'WIND.',410,K.forest)}),(u,R)=>{
-  enter(R.a,u,0,{x:960,y:370,dx:-1500});enter(R.b,u,.5,{x:960,y:760,dx:1500});
+scene(K.lime,r=>({a:txt(r,'SECOND',P(410,245),K.forest),b:txt(r,'WIND.',P(410,245),K.forest)}),(u,R)=>{
+  enter(R.a,u,0,{x:CX,y:P(370,780),dx:-1600});enter(R.b,u,.5,{x:CX,y:P(760,1060),dx:1600});
   return {shake:[[.13,24],[.63,32]]}});
 
 // 11 — logo
-scene(K.forest,r=>({rg:[ring(r),ring(r),ring(r)],lg:pic(r,L+'auradrop-logo-horizontal-reverse.svg',1500),t:txt(r,'Your plant’s second wind.',100,K.mint)}),(u,R)=>{
-  R.rg.forEach((g,k)=>{const q=clamp((u-k*.12)/.6);ringAt(g,960,470,200+eo(q)*900,q>0?.6*(1-q):0,10)});
-  enter(R.lg,u,0,{x:960,y:470,s0:2.6,d:.15});enter(R.t,u,.45,{x:960,y:780,dy:200,s0:1.4});
+scene(K.forest,r=>({rg:[ring(r),ring(r),ring(r)],lg:pic(r,L+'auradrop-logo-horizontal-reverse.svg',P(1500,980)),t:txt(r,'Your plant’s second wind.',P(100,80),K.mint)}),(u,R)=>{
+  const cy=P(470,860);
+  R.rg.forEach((g,k)=>{const q=clamp((u-k*.12)/.6);ringAt(g,CX,cy,200+eo(q)*P(900,1000),q>0?.6*(1-q):0,10)});
+  enter(R.lg,u,0,{x:CX,y:cy,s0:2.6,d:.15});enter(R.t,u,.45,{x:CX,y:P(780,1090),dy:200,s0:1.4});
   return {shake:[[.15,30]]}});
 
 // 12 — CTA
-scene(K.leaf,r=>({a:txt(r,'GET EARLY',260,K.cream),b:txt(r,'ACCESS.',260,K.cream),p:box(r,{},'a pill'),s:[spark(r,110,K.lime),spark(r,70,K.cream)]}),(u,R)=>{
+scene(K.leaf,r=>({a:txt(r,'GET EARLY',P(260,178),K.cream),b:txt(r,'ACCESS.',P(260,178),K.cream),p:box(r,{},'a pill'),s:[spark(r,110,K.lime),spark(r,70,K.cream)]}),(u,R)=>{
   R.p.textContent='Join the waitlist  →';
-  enter(R.a,u,0,{x:960,y:290,dx:-1500});enter(R.b,u,.25,{x:960,y:560,dx:1500});enter(R.p,u,.5,{x:960,y:870,s0:2.2,dy:300});
-  enter(R.s[0],u,.62,{x:150,y:150,s0:3,d:.1});enter(R.s[1],u,.72,{x:1640,y:620,s0:3,d:.1});
+  enter(R.a,u,0,{x:CX,y:P(290,720),dx:-1600});enter(R.b,u,.25,{x:CX,y:P(560,930),dx:1600});enter(R.p,u,.5,{x:CX,y:P(870,1180),s:P(1,.9),s0:2.2,dy:300});
+  enter(R.s[0],u,.62,{x:P(150,150),y:P(150,520),s0:3,d:.1});enter(R.s[1],u,.72,{x:P(1640,930),y:P(620,1380),s0:3,d:.1});
   return {shake:[[.13,20],[.38,26],[.6,16]]}});
 
 scenes.forEach(s=>{const d=document.createElement('div');d.className='scene';d.style.background=s.bg;world.appendChild(d);s.root=d;s.R=s.build(d)});
