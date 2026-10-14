@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="28 8 200 250" role="img" aria-label="AuraDrop mark, wilted state">
+  <path d="M128 20C128 20 44 108 44 164a84 84 0 0 0 168 0C212 108 128 20 128 20Z" fill="#9AA39E"/>
+  <path d="M128 222C128 192 120 158 120 128" fill="none" stroke="#DAD5C8" stroke-width="7" stroke-linecap="round"/>
+  <g transform="translate(120 128) rotate(150) scale(.75) translate(-128 -218)">
+    <path d="M128 218C92 196 92 146 128 104C164 146 164 196 128 218Z" fill="#DAD5C8"/>
+    <path d="M128 208V132" stroke="#9AA39E" stroke-width="7" stroke-linecap="round"/>
+  </g>
+</svg>

@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="20 8 250 250" role="img" aria-label="AuraDrop mark">
+  <defs>
+    <linearGradient id="d" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#3FD283"/><stop offset="1" stop-color="#1C9358"/>
+    </linearGradient>
+  </defs>
+  <path d="M158.5 46A118 118 0 0 1 234.9 110.1" fill="none" stroke="#8FE04A" stroke-width="10" stroke-linecap="round"/>
+  <path d="M164.2 24.8A140 140 0 0 1 254.9 100.8" fill="none" stroke="#8FE04A" stroke-opacity=".5" stroke-width="10" stroke-linecap="round"/>
+  <path d="M128 20C128 20 44 108 44 164a84 84 0 0 0 168 0C212 108 128 20 128 20Z" fill="url(#d)"/>
+  <g transform="rotate(12 128 160)">
+    <path d="M128 218C92 196 92 146 128 104C164 146 164 196 128 218Z" fill="#FBF8F0"/>
+    <path d="M128 208V132" stroke="#1C9358" stroke-width="6" stroke-linecap="round"/>
+    <path d="M128 170L110 156M128 186L146 172" stroke="#1C9358" stroke-width="5" stroke-linecap="round"/>
+  </g>
+</svg>

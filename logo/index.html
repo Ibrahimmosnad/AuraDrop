@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>AuraDrop Logo</title>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{--forest:#14352A;--leaf:#1C9358;--mint:#3FD283;--lime:#8FE04A;--cream:#FBF8F0;--sage:#9AA39E;--ink:#14352A}
+*{box-sizing:border-box}body{margin:0;background:var(--cream);color:var(--ink);font-family:'DM Sans',system-ui,sans-serif}
+main{max-width:1000px;margin:0 auto;padding:48px 24px 80px}
+h1,h2{font-family:Fredoka,'Trebuchet MS',sans-serif;font-weight:600;margin:0}
+h1{font-size:40px}h2{font-size:15px;letter-spacing:.08em;text-transform:uppercase;color:var(--leaf);margin:48px 0 14px}
+p.sub{margin:8px 0 0;color:#4a6358}
+.grid{display:grid;gap:16px;grid-template-columns:repeat(auto-fit,minmax(260px,1fr))}
+.card{border-radius:20px;padding:32px;display:flex;align-items:center;justify-content:center;min-height:220px;background:#fff;border:1px solid #e6e1d3}
+.card.dark{background:var(--forest);border-color:var(--forest)}.card.wide{grid-column:1/-1}
+.card img{max-width:100%;height:auto}
+.icon{width:140px;height:140px;border-radius:32px;background:linear-gradient(160deg,#3FD283,#1C9358);display:grid;place-items:center}
+.icon img{width:64%}
+.row{display:flex;align-items:flex-end;gap:28px}
+.pair{display:flex;align-items:center;gap:28px}.arrow{font-size:36px;color:var(--leaf)}
+.sw{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:12px}
+.sw div{border-radius:14px;padding:70px 12px 12px;font-size:13px;line-height:1.35}
+.sw b{display:block;font-family:Fredoka,sans-serif;font-weight:500}
+</style></head><body><main>
+<h1>AuraDrop — logo</h1>
+<p class="sub">A water drop holding a leaf, with a two-ring “aura” glow. Direction A: leaf-drop.</p>
+
+<h2>Primary lockup</h2>
+<div class="grid"><div class="card wide"><img src="auradrop-logo-horizontal.svg" width="460" alt="AuraDrop logo"></div></div>
+
+<h2>Reverse &amp; mark</h2>
+<div class="grid">
+  <div class="card dark"><img src="auradrop-logo-horizontal-reverse.svg" width="340" alt=""></div>
+  <div class="card"><img src="auradrop-mark.svg" width="150" alt=""></div>
+  <div class="card"><img src="auradrop-app-icon.svg" width="140" alt="app icon"></div>
+</div>
+
+<h2>Wilted → revived (the brand’s two states)</h2>
+<div class="grid"><div class="card wide"><div class="pair">
+  <img src="auradrop-mark-wilted.svg" width="130" alt="wilted"><span class="arrow">→</span><img src="auradrop-mark.svg" width="150" alt="revived">
+</div></div></div>
+
+<h2>Small sizes</h2>
+<div class="grid"><div class="card wide"><div class="row">
+  <img src="auradrop-mark-simple.svg" width="96" alt=""><img src="auradrop-mark-simple.svg" width="48" alt=""><img src="auradrop-mark-simple.svg" width="32" alt=""><img src="auradrop-mark-simple.svg" width="16" alt="">
+</div></div></div>
+
+<h2>Colour</h2>
+<div class="sw">
+  <div style="background:#14352A;color:#fff"><b>Forest</b>#14352A</div>
+  <div style="background:#1C9358;color:#fff"><b>Leaf</b>#1C9358</div>
+  <div style="background:#3FD283"><b>Mint</b>#3FD283</div>
+  <div style="background:#8FE04A"><b>Aura lime</b>#8FE04A</div>
+  <div style="background:#9AA39E"><b>Wilt sage</b>#9AA39E</div>
+  <div style="background:#FBF8F0;border:1px solid #e6e1d3"><b>Cream</b>#FBF8F0</div>
+</div>
+</main></body></html>
